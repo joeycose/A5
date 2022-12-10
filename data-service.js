@@ -1,4 +1,4 @@
-const fs = require('fs'); //used for file reading :3
+const fs = require('fs'); 
 const data_folder = "./data/";
 
 var employees;

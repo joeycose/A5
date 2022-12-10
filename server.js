@@ -1,17 +1,17 @@
 
 var bodyParser = require('body-parser');
 var express = require("express");
-const { engine } = require("express-handlebars"); //express handlebars
+const { engine } = require("express-handlebars"); 
 
 var app=express();
 
-app.engine('.hbs', engine({extname : ".hbs",   //Tells server how to hadnle HTML files thar formatted using handlebar's format(.hbs)
+app.engine('.hbs', engine({extname : ".hbs",   
 
 //gg
 
 helpers: {
 
-    navLink : function(url, options){  //I don't fully understand this helper function, more research needed
+    navLink : function(url, options){ 
     
             return '<li' + ((url == app.locals.activeRoute) ? ' class="active" ' : '') + '><a href="' + url + '">' + options.fn(this) + '</a></li>';},
           
@@ -69,7 +69,7 @@ function onHttpStart() {
   }
  
 
-app.use(function(req,res,next){ //adds property activeRoute to app.locals. I don't fully understand this  function, more research needed
+app.use(function(req,res,next){ 
 
   let route = req.baseUrl + req.path;
   app.locals.activeRoute = (route == "/") ? "/" : route.replace(/\/$/, "");
@@ -94,7 +94,7 @@ app.get("/employees", function(req,res){
   console.log(req.query);
 
 
-  if(Object.keys(req.query).length === 0){ //check if query is empty 
+  if(Object.keys(req.query).length === 0){ 
     data_services.getAllEmployees().then(function(data){
 
         //res.json(data);
@@ -138,7 +138,6 @@ app.get("/employees/add", function(req,res){
 
   })
 
-  //res.sendFile(path.join(__dirname + views + "addEmployee.html"));
 
 
 })
@@ -151,15 +150,15 @@ app.get("/employees/:num", function(req, res){
   data_services.getEmployees(req.params).then((data) => {
       if (data) {
   
-          viewData.employee = data; //store employee data in the "viewData" object as "employee"
+          viewData.employee = data;
       } else {
-          viewData.employee = null; // set employee to null if none were returned
+          viewData.employee = null; 
       }
   }).catch(() => {
-      viewData.employee = null; // set employee to null if there was an error 
+      viewData.employee = null; 
   }).then(data_services.getDepartments)
   .then((data) => {
-      viewData.departments = data; // store department data in the "viewData" object as "departments"
+      viewData.departments = data; 
 
       
 
@@ -170,13 +169,13 @@ app.get("/employees/:num", function(req, res){
       }
 
   }).catch(() => {
-      viewData.departments = []; // set departments to empty if there was an error
+      viewData.departments = []; 
   }).then(() => {
-      if (viewData.employee == null) { // if no employee - return an error
+      if (viewData.employee == null) { 
           res.status(404).send("Employee Not Found");
       } else {
         console.log(viewData.employee);
-          res.render("employee", { viewData: viewData }); // render the "employee" view
+          res.render("employee", { viewData: viewData }); 
       }
   })
 })
@@ -254,7 +253,7 @@ app.get("/department/:departmentId", function(req,res){
 app.get("/images/add", function(req,res){
 
   res.render("addImage")
-  //res.sendFile(path.join(__dirname + views + "addImage.html"));
+
 
 })
 
@@ -297,9 +296,6 @@ app.post("/employee/update", function(req,res){
 
 app.post("/images/add", upload.single("imageFile"), function(req, res){
     
-  //Yo call me pussy ass bitch <3 
-  //All love all love 
-
   res.redirect("/images")
 
 
@@ -350,7 +346,7 @@ app.post("/department/update", function(req,res){
 })
 
 app.use((req, res) => {
-    res.status(404).send("Your princess is in another castle brother...");
+    res.status(404).send("Error");
   });
 
 
